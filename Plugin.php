@@ -16,7 +16,7 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'pdfgenerator',
+            'name'        => 'Pdfgenerator',
             'description' => 'No description provided yet...',
             'author'      => 'initbiz',
             'icon'        => 'icon-leaf'
