@@ -3,17 +3,16 @@
 use File;
 use Knp\Snappy\Pdf;
 use Twig;
+use Config;
 
 class PdfGenerator
 {
     public $snappy;
-    public function __construct($binaryPath = '/usr/local/bin/wkhtmltopdf')
+    public function __construct()
     {
-        $this->snappy = new Pdf($binaryPath);
-        // $this->snappy->setBinary($binaryPat:w
-        // h);
+        $this->snappy = new Pdf();
+        $this->snappy->setBinary(Config::get('initbiz.pdfgenerator::config.pdf.binary'));
     }
-
 
     /**
      *  Method to generate pdf from layout and data, return pdf path
@@ -33,6 +32,7 @@ class PdfGenerator
         $template = File::get($pathToTemplate);
         $html = Twig::parse($template, $data);
         $fileName = str_random(20).'.pdf';
+        // $snappy->setOption('cover', '<h1>Bill cover</h1>');
         $this->snappy->generateFromHtml($html, $fileName);
         echo readfile($fileName);
     }
