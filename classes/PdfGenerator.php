@@ -1,11 +1,17 @@
 <?php namespace Initbiz\Pdfgenerator\Classes;
+
+use File;
 use Knp\Snappy\Pdf;
+use Twig;
 
-class PdfGenerator {
-
-    public function __construct($binaryPath = '/usr/local/bin/wkhtmltopdf'){
-        $snappy = new Pdf();
-        $snappy->setBinary($binaryPath);
+class PdfGenerator
+{
+    public $snappy;
+    public function __construct($binaryPath = '/usr/local/bin/wkhtmltopdf')
+    {
+        $this->snappy = new Pdf($binaryPath);
+        // $this->snappy->setBinary($binaryPat:w
+        // h);
     }
 
 
@@ -20,70 +26,14 @@ class PdfGenerator {
     {
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="file.pdf"');
-        $snappy->generateFromHtml('
-        <div class="content">
-            <p class="small-txt">Acme Company • Admin Person • Test Street • 31335 Berlin</p>
+//        $loader = new \Twig_Loader_Filesystem(plugins_path().'/views/pdf');
+//        $twig = new \Twig_Environment($loader);
 
-            <p class="company-info">
-                <strong>Happy Customer - Acme GmbH</strong><br>
-                <strong>Elbstr. 2</strong><br>
-                <strong>041340 Berlin</strong>
-            </p>
-
-            <p class="customer-info">
-                <strong>Kundennummer:</strong> 1211<br>
-                <strong>Rechnungsnummer:</strong> 2015-ADG-1612<br>
-                <strong>Datum:</strong> 18.03.2015<br>
-                <strong>Zahlungsbedingungen:</strong> 2 Tage ohne Abzug<br>
-                <strong>Fällig am:</strong> 20.03.2015
-            </p>
-            <table class="summary">
-                <tr>
-                    <th>Menge</th>
-                    <th>Beschreibung</th>
-                    <th>Preis</th>
-                    <th>Anzahlung 30%</th>
-                </tr>
-                <tr>
-                    <td class="col-1">1</td>
-                    <td class="col-2">4 Holzfenster</td>
-                    <td class="col-3">26.653,69 &euro;</td>
-                    <td class="col-4">7.996,11 &euro;</td>
-                </tr>
-                <tr>
-                    <td class="col-1">1</td>
-                    <td class="col-2">4 Holzfenster</td>
-                    <td class="col-3">26.653,69 &euro;</td>
-                    <td class="col-4">7.996,11 &euro;</td>
-                </tr>
-                {% for i in 0..5 %}
-                    <tr>
-                        <td class="col-1">&nbsp;</td>
-                        <td class="col-2"></td>
-                        <td class="col-3"></td>
-                        <td class="col-4"></td>
-                    </tr>
-                {% endfor %}
-                <tr class="sum-price">
-                    <td colspan="3" class="col-3 bt">Netto</td>
-                    <td class="col-4">7.996,11 &euro;</td>
-                </tr>
-                <tr class="sum-price">
-                    <td colspan="3" class="col-3">zzgl. 19% MwSt.</td>
-                    <td class="col-4">1.519,26 &euro;</td>
-                </tr>
-                <tr class="sum-price">
-                    <td colspan="3" class="col-3"><strong>Gesamt</strong></td>
-                    <td class="col-4">9.515,37 &euro;</td>
-                </tr>
-            </table>
-            <p><strong>Vielen Dank für Ihren Auftrag</strong></p>
-
-            <p>Gerichtsstand für alle Ansprüche aus diesem Auftrag ist Berlin.</p>
-        </div>
-
-        ', '/tmp/bill-123222.pdf');
-        echo readfile('/tmp/bill-123222.pdf');
-
+        $pathToTemplate = plugins_path().'/initbiz/pdfgenerator/views/pdf/'.$layout;
+        $template = File::get($pathToTemplate);
+        $html = Twig::parse($template, $data);
+        $fileName = str_random(20).'.pdf';
+        $this->snappy->generateFromHtml($html, $fileName);
+        echo readfile($fileName);
     }
 }
