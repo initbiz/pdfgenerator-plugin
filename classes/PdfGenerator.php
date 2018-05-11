@@ -4,6 +4,7 @@ use File;
 use Knp\Snappy\Pdf;
 use Twig;
 use Config;
+use Event;
 
 class PdfGenerator
 {
@@ -17,23 +18,26 @@ class PdfGenerator
     /**
      *  Method to generate pdf from layout and data, return pdf path
      *
-     * @param  object $layout
-     * @param  array $data
+     * @param  string $layout   Path to layout file
+     * @param  array $data      Parameters
+     * @param  string $filename Output filename
      * @return string
      */
-    public function generateFromHtml($layout ='', $data =[])
+    public function generateFromHtml($layout, array $data =[], $filename)
     {
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="file.pdf"');
-//        $loader = new \Twig_Loader_Filesystem(plugins_path().'/views/pdf');
-//        $twig = new \Twig_Environment($loader);
-
         $pathToTemplate = plugins_path().'/initbiz/pdfgenerator/views/pdf/'.$layout;
         $template = File::get($pathToTemplate);
+
         $html = Twig::parse($template, $data);
-        $fileName = str_random(20).'.pdf';
-        // $snappy->setOption('cover', '<h1>Bill cover</h1>');
-        $this->snappy->generateFromHtml($html, $fileName);
-        echo readfile($fileName);
+        $tempFilename = '/tmp/pdfgenerator/'.$filename.'_'.str_random(15).'.pdf';
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="'.$filename.'.pdf"');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Content-Transfer-Encoding: binary');
+        header('Pragma: public');
+        $this->snappy->generateFromHtml($html, $tempFilename);
+        Event::fire('initbiz.pdfgenerator.beforeDownloadPdf');
+        echo readfile($tempFilename);
     }
 }
