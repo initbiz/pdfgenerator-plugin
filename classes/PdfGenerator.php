@@ -27,6 +27,6 @@ class PdfGenerator
     {
         $html = Twig::parse(File::get($layout), $data);
         $this->snappy->generateFromHtml($html, $filename);
-        Event::fire('initbiz.pdfgenerator.beforeDownloadPdf');
+        Event::fire('initbiz.pdfgenerator.afterGeneratePdf');
     }
 }
