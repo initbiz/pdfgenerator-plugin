@@ -1,10 +1,10 @@
 <?php namespace Initbiz\Pdfgenerator\Classes;
 
 use File;
-use Knp\Snappy\Pdf;
 use Twig;
-use Config;
 use Event;
+use Config;
+use Knp\Snappy\Pdf;
 
 class PdfGenerator
 {
