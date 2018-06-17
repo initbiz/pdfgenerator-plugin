@@ -1,6 +1,7 @@
 <?php namespace Initbiz\Pdfgenerator;
 
 use Backend;
+use System\Classes\PluginBase;
 
 /**
  * pdfgenerator Plugin Information File
