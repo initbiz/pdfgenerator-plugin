@@ -4,7 +4,7 @@ use Route;
 use Config;
 
 /**
- * Download PDF using this routings, but if you generated file to different path than in config this won't work
+ * Download PDF using this routing, but if you generated file to different path than in config than this won't work
  * @var Response
  */
 Route::get('initbiz/pdfgenerator/download/{filename}/{token?}', function ($filename, $token) {
