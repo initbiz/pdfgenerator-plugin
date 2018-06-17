@@ -12,10 +12,10 @@ return [
         'pdf_dir' => env('PDF_DIR', temp_path()),
 
         //Do we want to remove file after download
-        'rm_after_download' => env('PDF_RM_AFTER_DOWNLOAD', true)),
+        'rm_after_download' => env('PDF_RM_AFTER_DOWNLOAD', true),
 
         //Do we want to remove old files
-        'rm_old_files' => env('PDF_RM_OLD', false)),
+        'rm_old_files' => env('PDF_RM_OLD', false),
 
         //Time in seconds, by default two days
         'rm_older_than' => env('PDF_RM_OLDER_THAN', 172800),

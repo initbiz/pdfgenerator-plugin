@@ -1,5 +1,6 @@
 <?php namespace Initbiz\Pdfgenerator;
 
+use Event;
 use Initbiz\Pdfgenerator\Classes\Helpers;
 
 /**

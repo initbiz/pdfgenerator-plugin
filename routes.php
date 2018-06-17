@@ -1,5 +1,6 @@
 <?php namespace Initbiz\Pdfgenerator;
 
+use Route;
 use Config;
 
 /**
@@ -8,11 +9,12 @@ use Config;
  */
 Route::get('initbiz/pdfgenerator/download/{filename}/{token?}', function ($filename, $token) {
     $tokenize = Config::get('initbiz.pdfgenerator::config.pdf.tokenize');
+    $directory = Config::get('initbiz.pdfgenerator::config.pdf.pdf_dir');
 
     if ($token && $tokenize) {
-        $localFileName = $this->directory.'/'.$filename.'_'.$token.'.pdf';
+        $localFileName = $directory.'/'.$filename.'_'.$token.'.pdf';
     } else {
-        $localFileName = $this->directory.'/'.$filename.'.pdf';
+        $localFileName = $directory.'/'.$filename.'.pdf';
     }
 
     $rmAfterDownload = Config::get('initbiz.pdfgenerator::config.pdf.rm_after_download');
