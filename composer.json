@@ -1,8 +1,8 @@
 {
-  "name": "Initbiz/PdfGenerator",
+  "name": "initbiz/oc-pdfgenerator-plugin",
   "type": "october-plugin",
   "description": "Pdf generator plugin for October CMS",
-  "homepage": "http://cumulus.init.biz",
+  "homepage": "https://octobercms.com/plugin/initbiz-pdfgenerator",
   "keywords": ["october", "octobercms", "pdf", "generator", "php"],
   "license": "MIT",
   "authors": [
@@ -10,7 +10,7 @@
       "name": "Tomasz Strojny",
       "email": "tomasz@init.biz",
       "role": "Founder"
-  },
+    },
     {
       "name": "Piotr Rogowski",
       "email": "piotr@init.biz",
