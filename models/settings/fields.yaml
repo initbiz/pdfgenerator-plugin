@@ -1,0 +1,30 @@
+tabs:
+    fields:
+        pdf_tokenize:
+            label: initbiz.pdfgenerator::lang.settings.pdf_tokenize_label
+            commentAbove: initbiz.pdfgenerator::lang.settings.pdf_tokenize_comment
+            type: switch
+            default: true
+        pdf_dir:
+            label: initbiz.pdfgenerator::lang.settings.pdf_dir_label
+            commentAbove: initbiz.pdfgenerator::lang.settings.pdf_dir_comment
+        pdf_rm_after_download:
+            label: initbiz.pdfgenerator::lang.settings.pdf_rm_download_label
+            type: switch
+            default: true
+        pdf_rm_old:
+            label: initbiz.pdfgenerator::lang.settings.pdf_rm_old_label
+            type: switch
+            trigger:
+                action: hide
+                field: pdf_rm_after_download
+                condition: checked
+        pdf_rm_older_than:
+            label: initbiz.pdfgenerator::lang.settings.pdf_rm_older_than_label
+            commentAbove: initbiz.pdfgenerator::lang.settings.pdf_rm_older_than_comment
+            type: number
+            default: 172800
+            trigger:
+                action: hide
+                field: pdf_rm_after_download
+                condition: checked
