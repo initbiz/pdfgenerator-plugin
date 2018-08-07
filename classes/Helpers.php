@@ -14,9 +14,14 @@ class Helpers
     public static function removeOldPdfs()
     {
         $rmOldFiles = Settings::get('pdf_rm_old', false);
+        $rmOldFiles = ($rmOldFiles === "") ? false : $rmOldFiles;
+
         if ($rmOldFiles) {
             $pdfDir = Settings::get('pdf_dir', temp_path());
+            $pdfDir = ($pdfDir === "") ? temp_path() : $pdfDir;
+
             $olderThan = Settings::get('pdf_rm_older_than', 172800);
+            $olderThan = ($olderThan === "") ? 172800 : $olderThan;
 
             foreach (File::files($pdfDir) as $file) {
                 $mTime = File::lastModified($file->getRealPath());

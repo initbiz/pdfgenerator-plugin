@@ -63,7 +63,10 @@ class PdfGenerator
         $this->snappyPdf = new Pdf();
 
         //By default the most resonable one is set
-        $this->snappyPdf->setBinary(Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64')));
+        $binaryPath = Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
+        $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
+
+        $this->snappyPdf->setBinary($binaryPath);
 
         //By default empty layout is set
         $this->layout = new Example();
@@ -73,9 +76,11 @@ class PdfGenerator
 
         //By default get from config. Before rendering you can override the variable.
         $this->directory = Settings::get('pdf_dir', temp_path());
+        $this->directory = ($this->directory === "") ? temp_path() : $this->directory;
 
         //By default files are tokenized on local filesystem
         $this->tokenize = Settings::get('pdf_tokenize', true);
+        $this->tokenize = ($this->tokenize === "") ? true : $this->tokenize;
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
