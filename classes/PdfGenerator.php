@@ -57,7 +57,7 @@ class PdfGenerator
      */
     public $localFileName;
 
-    public function __construct()
+    public function __construct($layout = null)
     {
         $this->snappyPdf = new Pdf();
 
@@ -77,6 +77,11 @@ class PdfGenerator
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
+
+        if ($layout) {
+            $this->layout = $layout->path;
+            $this->data = $layout->data;
+        }
     }
 
     /**
