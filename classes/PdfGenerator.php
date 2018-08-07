@@ -58,6 +58,10 @@ class PdfGenerator
      */
     public $localFileName;
 
+    /**
+     * Constructor
+     * @param Initbiz\Pdfgenerator\Classes\PdfLayout $layout Layout of PDF
+     */
     public function __construct($layout = null)
     {
         $this->snappyPdf = new Pdf();
@@ -68,11 +72,16 @@ class PdfGenerator
 
         $this->snappyPdf->setBinary($binaryPath);
 
-        //By default empty layout is set
-        $this->layout = new Example();
-
         //By default empty data is set
         $this->data = [];
+
+        if ($layout) {
+            $this->layout = $layout->path;
+            $this->data = $layout->data;
+        } else {
+            //By default empty layout is set
+            $this->layout = new Example();
+        }
 
         //By default get from config. Before rendering you can override the variable.
         $this->directory = Settings::get('pdf_dir', temp_path());
@@ -84,11 +93,6 @@ class PdfGenerator
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
-
-        if ($layout) {
-            $this->layout = $layout->path;
-            $this->data = $layout->data;
-        }
     }
 
     /**
