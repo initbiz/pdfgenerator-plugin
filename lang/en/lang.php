@@ -14,5 +14,7 @@
         'pdf_rm_old_label' => 'Remove old files',
         'pdf_rm_older_than_label' => 'Remove files older than',
         'pdf_rm_older_than_comment' => 'In seconds time to store PDFs. By default 172800 - two days',
+        'pdf_binary_label' => 'Binary path',
+        'pdf_binary_comment' => 'Absolute path of the binary of wkhtmltopdf',
     ],
 ];

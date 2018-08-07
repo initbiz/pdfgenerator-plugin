@@ -2,8 +2,8 @@
 
 use File;
 use Event;
-use Config;
 use Carbon\Carbon;
+use Initbiz\Pdfgenerator\Models\Settings;
 
 class Helpers
 {
@@ -13,10 +13,10 @@ class Helpers
      */
     public static function removeOldPdfs()
     {
-        $rmOldFiles = Config::get('initbiz.pdfgenerator::config.pdf.rm_old_files');
+        $rmOldFiles = Settings::get('pdf_rm_old', false);
         if ($rmOldFiles) {
-            $pdfDir = Config::get('initbiz.pdfgenerator::config.pdf.pdf_dir');
-            $olderThan = Config::get('initbiz.pdfgenerator::config.pdf.rm_older_than');
+            $pdfDir = Settings::get('pdf_dir', temp_path());
+            $olderThan = Settings::get('pdf_rm_older_than', 172800);
 
             foreach (File::files($pdfDir) as $file) {
                 $mTime = File::lastModified($file->getRealPath());

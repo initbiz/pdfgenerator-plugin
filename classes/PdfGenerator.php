@@ -3,9 +3,10 @@
 use File;
 use Twig;
 use Event;
-use Config;
 use Redirect;
 use Knp\Snappy\Pdf;
+use Initbiz\Pdfgenerator\Models\Settings;
+use Initbiz\Pdfgenerator\PdfLayouts\Example;
 
 class PdfGenerator
 {
@@ -61,19 +62,20 @@ class PdfGenerator
     {
         $this->snappyPdf = new Pdf();
 
-        $this->snappyPdf->setBinary(Config::get('initbiz.pdfgenerator::config.pdf.binary'));
+        //By default the most resonable one is set
+        $this->snappyPdf->setBinary(Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64')));
 
         //By default empty layout is set
-        $this->layout = plugins_path().'/initbiz/pdfgenerator/views/pdf/empty.htm';
+        $this->layout = new Example();
 
         //By default empty data is set
         $this->data = [];
 
         //By default get from config. Before rendering you can override the variable.
-        $this->directory = Config::get('initbiz.pdfgenerator::config.pdf.pdf_dir');
+        $this->directory = Settings::get('pdf_dir', temp_path());
 
         //By default files are tokenized on local filesystem
-        $this->tokenize = Config::get('initbiz.pdfgenerator::config.pdf.tokenize');
+        $this->tokenize = Settings::get('pdf_tokenize', true);
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);

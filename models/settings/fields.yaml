@@ -28,3 +28,6 @@ tabs:
                 action: hide
                 field: pdf_rm_after_download
                 condition: checked
+        pdf_binary:
+            label: initbiz.pdfgenerator::lang.settings.pdf_binary_label
+            commentAbove: initbiz.pdfgenerator::lang.settings.pdf_binary_comment

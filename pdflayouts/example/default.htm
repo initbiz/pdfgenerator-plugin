@@ -1,42 +1,27 @@
 <!doctype html>
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="{{mdicss}}">
     <style>
         {% for font in fonts %}
-            @font-face {
-              font-family: {{ font.name }};
-              src:url("{{ font.src }}") format({{ font.format }});
-            }
+        @font-face { font-family: {{ font.name }}; src:url("{{ font.src }}") format({{ font.format }}); }
         {% endfor %}
         html,body { height: 100%; }
-        body {
-            width: 1200px;
-            margin: auto;
-            padding: 30px;
-            font-size: 21px;
-            color: #000;
-            font-weight: 200;
-        }
+        body { width: 1200px; margin: auto; padding: 30px; font-size: 21px; color: #000; }
         p { margin: 0 0 5px 0; padding: 0; }
         hr { border: none; height: 1px; background-color: #ddd; margin: 30px 0; }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
         .right { margin-left: auto; }
         .center { margin-left: auto; margin-right: auto; }
-        .no-border, .no-border td {border: 0px;}
         .inline-divs { width: 100%; }
         .inline-divs div { display: inline-block; }
-        .row { width: 100%; clear: both; }
-        .tf-logo { max-width: 200px; max-height: 35px; vertical-align: middle; margin-left: 10px; }
+        .logo { max-height: 35px; vertical-align: middle; }
     </style>
 </head>
 
 <body>
     <div class="inline-divs">
-        <div class="top right">
+        <div class="right">
         <h1>
             Example PDF
         </h1>
@@ -49,7 +34,7 @@
     <hr>
 
     <div class="center">
-        Powered by <img class="logo" src="{{ initlogo }}">
+        Powered by <img class="logo" src="{{ initlogo }}">.biz
     </div>
 </body>
 
