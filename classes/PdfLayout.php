@@ -33,6 +33,10 @@ abstract class PdfLayout
         $this->prepareData($data);
     }
 
+    /**
+     * To override or run in child class
+     * @param  array|object $data data to inject to layout
+     */
     public function prepareData($data)
     {
         $this->data = $data;
