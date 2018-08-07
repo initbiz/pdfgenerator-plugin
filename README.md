@@ -10,13 +10,13 @@ Yes, we decided to write another PDF generator. But this one differs a little fr
 
 ## How to
 ### Configure environment
-The very first thing to do is to set absolute path to `wkhtmltopdf` binary using `WKHTMLTOPDF_BINARY` in your settings.
+After installing you should be ready to go, but in a lot of cases you will have to set an absolute path to executable binary of `wkhtmltopdf` in backend settings.
 
-You are ready to go. But sometimes you may want to customize more configs:
- * tokenizing - if you want to add pseudorandom 15 chars token to local filename. It does not affect downloaded filename so is set to true by default
- * directory where generated PDF files will be stored, default `temp_path()`
- * removing PDFs files right after sending to user, default true
- * removing files older than specified amount of seconds
+Sometimes you may wish to customize it more:
+ * tokenizing - if you want to add pseudorandom 15 chars token to local filename. It does not affect downloaded filename so is set to `true` by default
+ * directory where generated PDF files will be stored, `temp_path()` by default
+ * removing PDFs files right after sending to user, `true` by default
+ * removing files older than specified amount of seconds, two days by default
 
 ### Quick start
 Here you have an example `onDownloadPdf` AJAX handler that generates PDF and downloads PDF by October's AJAX framework. As simple as that:
@@ -49,7 +49,7 @@ Here you have an example `onDownloadPdf` AJAX handler that generates PDF and dow
     }
 ```
 
-### More fancy
+### More fancy start :)
 The plugin comes with a `PdfLayout` class that can be injected to `PdfGenerator`. The above example using the class will look as follows:
 
 ```php
@@ -70,7 +70,6 @@ The plugin comes with a `PdfLayout` class that can be injected to `PdfGenerator`
 
         $pdfGenerator = new PdfGenerator($layout);
 
-        //Set filename for downloaded file
         $pdfGenerator->filename = "my-pdf";
 
         $pdfGenerator->generatePdf();
@@ -93,7 +92,7 @@ It is a little cleaner, but take a look at the `ExampleLayout` class:
             parent::prepareData($data);
 
             $this->data['logo'] = $this->assetsPath.'/img/logo.png';
-            $this->data['mdicss'] = $this->assetsPath.'/css/materialdesigniconspdf.min.css';
+            $this->data['mdicss'] = $this->assetsPath.'/css/materialdesignicons.min.css';
 
             $this->data['fonts'] = [
                 1 => [
@@ -106,29 +105,39 @@ It is a little cleaner, but take a look at the `ExampleLayout` class:
     }
 ```
 
-And the files structure of our `PdfLayouts` directory:
+and the files structure of our `PdfLayouts` directory:
 
 ```
-PdfLayouts
-├── examplelayout
-│   ├── assets
-│   │   ├── css
-│   │   │   └── materialdesigniconspdf.min.css
-│   │   ├── fonts
-│   │   │   └── mdi
-│   │   │       └── materialdesignicons-webfont.svg
-│   │   └── img
-│   │       └── logo.png
-│   └── default.htm
-└── ExampleLayout.php
+    PdfLayouts
+    ├── examplelayout
+    │   ├── assets
+    │   │   ├── css
+    │   │   │   └── materialdesignicons.min.css
+    │   │   ├── fonts
+    │   │   │   └── mdi
+    │   │   │       └── materialdesignicons-webfont.svg
+    │   │   └── img
+    │   │       └── logo.png
+    │   └── default.htm
+    └── ExampleLayout.php
 ```
 
-As you can see it is very OctoberCMS styled format. Just create a class and corresponding directory with lower-cased name.
+As you can see it is a very OctoberCMS styled format. Just create a class and corresponding directory with lower-cased name.
 
-It is a great way of organizing your PDF layouts with all assets they need to have included.
+It is a great way of organizing your PDF layouts with all assets they need to have included. Still keeping it as simple as possible, but not simpler :).
 
-Still keeping it as simple as possible, but not simpler :).
+## Troubleshooting and pro tips
+
+### Pro tip #1: fonts format
+While working with PDFs you probably will want to beautify them as much as possible. They will be displaying images, custom fonts or icons.
+But sometimes `wkhtmltopdf` messes up a little.
+
+#### Artifacts in rounded letters (O, B, P, R etc...)
+If you have included font using `TrueType` (`ttf`), than try to change it to `OpenType` (`otf`). If you do not have the file, than look for online converters. They are doing it pretty well.
+
+#### Material Design Icons and Adobe Reader
+If you add `Material Design Icons` (probably MDI are not the only case) Adobe Reader can have problems with reading the PDF (error 135). In this case you should change `MDI` to svg version as in above example. Then they appear as normal images.
 
 ## Future plans
 * Managing layouts from CLI or backend settings
-* Looking for assets in shared directories or remote paths
+* Looking for assets in shared directories
