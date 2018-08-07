@@ -2,3 +2,9 @@
     - 'First version of pdfgenerator'
 1.0.2:
     - 'Updated PdfGenerator class'
+1.0.3:
+    - 'Changed to paid plugin. The plugin was free until 1.0.2'
+1.0.4:
+    - 'Added PdfLayout class'
+1.0.5:
+    - '!!! Moved config to backend settings from .env and configs'
