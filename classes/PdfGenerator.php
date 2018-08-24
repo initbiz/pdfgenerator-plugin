@@ -60,9 +60,10 @@ class PdfGenerator
 
     /**
      * Constructor
-     * @param Initbiz\Pdfgenerator\Classes\PdfLayout $layout Layout of PDF
+     * @param string                                 $filename name of PDF file
+     * @param Initbiz\Pdfgenerator\Classes\PdfLayout $layout   Layout of PDF
      */
-    public function __construct($layout = null)
+    public function __construct($filename = 'generated', $layout = null)
     {
         $this->snappyPdf = new Pdf();
 
@@ -71,6 +72,8 @@ class PdfGenerator
         $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
 
         $this->snappyPdf->setBinary($binaryPath);
+
+        $this->filename = $filename;
 
         //By default empty data is set
         $this->data = [];
@@ -102,11 +105,8 @@ class PdfGenerator
     public function generatePdf()
     {
         Event::fire('initbiz.pdfgenerator.beforeGeneratePdf');
-        if ($this->tokenize) {
-            $this->localFileName = $this->directory.'/'.$this->filename.'_'.$this->token.'.pdf';
-        } else {
-            $this->localFileName = $this->directory.'/'.$this->filename.'.pdf';
-        }
+
+        $this->prepareLocalFileName();
 
         $this->generateFromTwig($this->layout, $this->data, $this->localFileName);
     }
@@ -116,13 +116,12 @@ class PdfGenerator
      *
      * @param  string   $layout     Path to layout file
      * @param  array    $data       Parameters
-     * @param  string   $filename   Output filename
      * @return void
      */
-    public function generateFromTwig($layout, array $data =[], $filename)
+    public function generateFromTwig($layout, array $data =[])
     {
         $html = Twig::parse(File::get($layout), $data);
-        $this->snappyPdf->generateFromHtml($html, $filename);
+        $this->snappyPdf->generateFromHtml($html, $this->filename);
         Event::fire('initbiz.pdfgenerator.afterGeneratePdf');
     }
 
@@ -139,5 +138,25 @@ class PdfGenerator
         } else {
             return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename);
         }
+    }
+
+    /**
+     * Set local file name
+     */
+    public function prepareLocalFileName()
+    {
+        if ($this->tokenize) {
+            $this->localFileName = $this->directory.'/'.$this->filename.'_'.$this->token.'.pdf';
+        } else {
+            $this->localFileName = $this->directory.'/'.$this->filename.'.pdf';
+        }
+    }
+
+    /**
+     * Get local file name
+     */
+    public function getLocalRootPath()
+    {
+        return $this->localFileName;
     }
 }
