@@ -96,6 +96,8 @@ class PdfGenerator
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
+
+        $this->prepareLocalFileName();
     }
 
     /**
@@ -105,8 +107,6 @@ class PdfGenerator
     public function generatePdf()
     {
         Event::fire('initbiz.pdfgenerator.beforeGeneratePdf');
-
-        $this->prepareLocalFileName();
 
         $this->generateFromTwig($this->layout, $this->data, $this->localFileName);
     }
@@ -118,10 +118,10 @@ class PdfGenerator
      * @param  array    $data       Parameters
      * @return void
      */
-    public function generateFromTwig($layout, array $data =[])
+    public function generateFromTwig($layout, array $data =[], $localFileName)
     {
         $html = Twig::parse(File::get($layout), $data);
-        $this->snappyPdf->generateFromHtml($html, $this->filename);
+        $this->snappyPdf->generateFromHtml($html, $localFileName);
         Event::fire('initbiz.pdfgenerator.afterGeneratePdf');
     }
 
