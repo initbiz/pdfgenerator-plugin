@@ -70,6 +70,14 @@ class PdfGenerator
         //By default the most resonable one is set
         $binaryPath = Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
         $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
+        
+        $pathAlias = substr($binaryPath, 0, 1);
+
+        if ($pathAlias === '$') {
+            $binaryPath = plugins_path(substr($binaryPath, 1));
+        } elseif ($pathAlias === '~') {
+            $binaryPath = base_path(substr($binaryPath, 1));
+        }
 
         $this->snappyPdf->setBinary($binaryPath);
 

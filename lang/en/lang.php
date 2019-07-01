@@ -15,6 +15,6 @@
         'pdf_rm_older_than_label' => 'Remove files older than',
         'pdf_rm_older_than_comment' => 'In seconds time to store PDFs. By default 172800 - two days',
         'pdf_binary_label' => 'Binary path',
-        'pdf_binary_comment' => 'Absolute path of the binary of wkhtmltopdf, by default: initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64',
+        'pdf_binary_comment' => 'Path to wkhtmltopdf, you can start the path with \~ (root path) or \$ (plugins path)',
     ],
 ];
