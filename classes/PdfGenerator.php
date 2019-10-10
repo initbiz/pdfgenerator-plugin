@@ -165,7 +165,7 @@ class PdfGenerator
     /**
      * Get full filename
      */
-    public function getFullFileName()
+    public function getDownloadFileName()
     {
         return $this->filename . '.pdf';
     }
