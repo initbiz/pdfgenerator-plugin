@@ -53,12 +53,6 @@ class PdfGenerator
     public $data;
 
     /**
-     * Filename on local storage, not the same as filename (that is used for downloading)
-     * @var string
-     */
-    public $localFileName;
-
-    /**
      * Constructor
      * @param string                                 $filename name of PDF file
      * @param Initbiz\Pdfgenerator\Classes\PdfLayout $layout   Layout of PDF
@@ -104,8 +98,6 @@ class PdfGenerator
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
-
-        $this->prepareLocalFileName();
     }
 
     /**
@@ -116,7 +108,7 @@ class PdfGenerator
     {
         Event::fire('initbiz.pdfgenerator.beforeGeneratePdf');
 
-        $this->generateFromTwig($this->layout, $this->data, $this->localFileName);
+        $this->generateFromTwig($this->layout, $this->data, $this->getLocalRootPath());
     }
 
     /**
@@ -151,13 +143,15 @@ class PdfGenerator
     /**
      * Set local file name
      */
-    public function prepareLocalFileName()
+    public function getLocalFileName()
     {
         if ($this->tokenize) {
-            $this->localFileName = $this->directory.'/'.$this->filename.'_'.$this->token.'.pdf';
+            $localFileName = $this->filename.'_'.$this->token.'.pdf';
         } else {
-            $this->localFileName = $this->directory.'/'.$this->filename.'.pdf';
+            $localFileName = $this->filename.'.pdf';
         }
+
+        return $localFileName;
     }
 
     /**
@@ -165,6 +159,14 @@ class PdfGenerator
      */
     public function getLocalRootPath()
     {
-        return $this->localFileName;
+        return $this->directory.'/'.$this->getLocalFileName();
+    }
+
+    /**
+     * Get full filename
+     */
+    public function getFullFileName()
+    {
+        return $this->filename . '.pdf';
     }
 }
