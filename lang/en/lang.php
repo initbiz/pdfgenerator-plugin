@@ -17,4 +17,8 @@
         'pdf_binary_label' => 'Binary path',
         'pdf_binary_comment' => 'Path to wkhtmltopdf, you can start the path with \~ (root path) or \$ (plugins path)',
     ],
+    'permissions' => [
+        'pdfgenerator_tab' => 'PDF Generator',
+        'all_label' => 'All permissions',
+    ],
 ];

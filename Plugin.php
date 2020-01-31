@@ -31,9 +31,19 @@ class Plugin extends PluginBase
                 'description'    => 'initbiz.pdfgenerator::lang.settings.settings_description',
                 'icon'           => 'icon-file-pdf-o',
                 'class'          => 'Initbiz\PdfGenerator\Models\Settings',
-                'permissions'    => [],
+                'permissions'    => ['initbiz.pdfgenerator.settings'],
                 'order'          => 400
             ],
+        ];
+    }
+
+    public function registerPermissions()
+    {
+        return [
+            'initbiz.pdfgenerator.*' => [
+                'tab' => 'initbiz.pdfgenerator::lang.permissions.pdfgenerator_tab',
+                'label' => 'initbiz.pdfgenerator::lang.permissions.all_label'
+            ]
         ];
     }
 }
