@@ -11,6 +11,8 @@
         "php"
     ],
     "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0",
         "knplabs/knp-snappy": "^1.0",
         "h4cc/wkhtmltopdf-amd64": "0.12.*",
         "h4cc/wkhtmltopdf-i386": "0.12.*"
