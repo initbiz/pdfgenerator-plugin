@@ -1,25 +1,18 @@
 {
-  "name": "initbiz/oc-pdfgenerator-plugin",
-  "type": "october-plugin",
-  "description": "Pdf generator plugin for October CMS",
-  "homepage": "https://octobercms.com/plugin/initbiz-pdfgenerator",
-  "keywords": ["october", "octobercms", "pdf", "generator", "php"],
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Tomasz Strojny",
-      "email": "tomasz@init.biz",
-      "role": "Founder"
-    },
-    {
-      "name": "Piotr Rogowski",
-      "email": "piotr@init.biz",
-      "role": "Developer"
+    "name": "initbiz/pdfgenerator-plugin",
+    "type": "october-plugin",
+    "description": "Pdf generator plugin for October CMS",
+    "homepage": "https://init.biz",
+    "keywords": [
+        "october",
+        "octobercms",
+        "pdf",
+        "generator",
+        "php"
+    ],
+    "require": {
+        "knplabs/knp-snappy": "^1.0",
+        "h4cc/wkhtmltopdf-amd64": "0.12.*",
+        "h4cc/wkhtmltopdf-i386": "0.12.*"
     }
-  ],
-  "require": {
-    "knplabs/knp-snappy": "^1.0",
-    "h4cc/wkhtmltopdf-amd64": "0.12.*",
-    "h4cc/wkhtmltopdf-i386": "0.12.*"
-  }
 }
