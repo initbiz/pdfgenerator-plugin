@@ -3,6 +3,7 @@
     "type": "october-plugin",
     "description": "Pdf generator plugin for October CMS",
     "homepage": "https://init.biz",
+    "license": "MIT",
     "keywords": [
         "october",
         "octobercms",
