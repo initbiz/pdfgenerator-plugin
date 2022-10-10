@@ -1,6 +1,7 @@
 <?php namespace Initbiz\Pdfgenerator;
 
 use Route;
+use Redirect;
 use Initbiz\Pdfgenerator\Models\Settings;
 
 /**
@@ -22,6 +23,10 @@ Route::get('initbiz/pdfgenerator/download/{filename}/{token?}', function ($filen
 
     $rmAfterDownload = Settings::get('pdf_rm_after_download', true);
     $rmAfterDownload = ($rmAfterDownload === "") ? true : $rmAfterDownload;
+
+    if (!file_exists($localFileName)) {
+        return Redirect::to('/404');
+    }
 
     return \Response::download($localFileName, $filename.'.pdf')->deleteFileAfterSend($rmAfterDownload);
 });

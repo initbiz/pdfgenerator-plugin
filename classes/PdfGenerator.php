@@ -108,17 +108,18 @@ class PdfGenerator
     {
         Event::fire('initbiz.pdfgenerator.beforeGeneratePdf');
 
-        $this->generateFromTwig($this->layout, $this->data, $this->getLocalRootPath());
+        $this->generateFromTwig($this->layout, $this->getLocalRootPath(), $this->data);
     }
 
     /**
      *  Method to generate pdf from layout and data, return pdf path
      *
-     * @param  string   $layout     Path to layout file
-     * @param  array    $data       Parameters
+     * @param  string   $layout         Path to layout file
+     * @param  string   $localFileName  Local file name
+     * @param  array    $data           Parameters
      * @return void
      */
-    public function generateFromTwig($layout, array $data =[], $localFileName)
+    public function generateFromTwig($layout, $localFileName, array $data = [])
     {
         $html = Twig::parse(File::get($layout), $data);
         $this->snappyPdf->generateFromHtml($html, $localFileName);
