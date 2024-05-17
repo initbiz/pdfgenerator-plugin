@@ -135,9 +135,9 @@ class PdfGenerator
         Event::fire('initbiz.pdfgenerator.beforeDownloadPdf');
 
         if ($this->tokenize) {
-            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename.'/'.$this->token);
+            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename.'/'.$this->token, 302, ['X-PJAX' => false]);
         } else {
-            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename);
+            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename, 302, ['X-PJAX' => false]);
         }
     }
 

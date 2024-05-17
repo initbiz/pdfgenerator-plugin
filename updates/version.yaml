@@ -10,3 +10,7 @@
     - '!!! Moved config to backend settings from .env and configs'
 1.0.6:
     - 'Fixed filename handling'
+1.0.7:
+    - 'Fix routing'
+1.0.8:
+    - 'Fix for Turbo router'
