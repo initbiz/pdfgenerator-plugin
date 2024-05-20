@@ -1,12 +1,16 @@
-<?php namespace Initbiz\Pdfgenerator\Classes;
+<?php
+
+namespace Initbiz\Pdfgenerator\Classes;
 
 use File;
 use Twig;
 use Event;
 use Redirect;
+use Response;
 use Knp\Snappy\Pdf;
 use Initbiz\Pdfgenerator\Models\Settings;
 use Initbiz\Pdfgenerator\PdfLayouts\Example;
+use Symfony\Component\HttpFoundation\Response as ResponseBase;
 
 class PdfGenerator
 {
@@ -64,7 +68,7 @@ class PdfGenerator
         //By default the most resonable one is set
         $binaryPath = Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
         $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
-        
+
         $pathAlias = substr($binaryPath, 0, 1);
 
         if ($pathAlias === '$') {
@@ -122,8 +126,10 @@ class PdfGenerator
     public function generateFromTwig($layout, $localFileName, array $data = [])
     {
         $html = Twig::parse(File::get($layout), $data);
-        $this->snappyPdf->generateFromHtml($html, $localFileName);
-        Event::fire('initbiz.pdfgenerator.afterGeneratePdf');
+        $settings = Settings::instance();
+        $this->snappyPdf->generateFromHtml($html, $localFileName, $settings->getOptionsKeyValue());
+
+        Event::fire('initbiz.pdfgenerator.afterGeneratePdf', [$this]);
     }
 
     /**
@@ -132,13 +138,25 @@ class PdfGenerator
      */
     public function downloadPdf()
     {
-        Event::fire('initbiz.pdfgenerator.beforeDownloadPdf');
+        Event::fire('initbiz.pdfgenerator.beforeDownloadPdf', [$this]);
 
         if ($this->tokenize) {
-            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename.'/'.$this->token, 302, ['X-PJAX' => false]);
+            return Redirect::to('initbiz/pdfgenerator/download/' . $this->filename . '/' . $this->token);
         } else {
-            return Redirect::to('initbiz/pdfgenerator/download/'.$this->filename, 302, ['X-PJAX' => false]);
+            return Redirect::to('initbiz/pdfgenerator/download/' . $this->filename);
         }
+    }
+
+    /**
+     * Download the file directly using AJAX
+     * @return Redirect Redirect download to file
+     */
+    public function downloadPdfUsingAjax()
+    {
+        Event::fire('initbiz.pdfgenerator.beforeDownloadPdf', [$this]);
+        Event::fire('initbiz.pdfgenerator.beforeDownloadPdfAjax', [$this]);
+
+        return self::prepareDownloadResponse($this->filename, $this->token);
     }
 
     /**
@@ -147,9 +165,9 @@ class PdfGenerator
     public function getLocalFileName()
     {
         if ($this->tokenize) {
-            $localFileName = $this->filename.'_'.$this->token.'.pdf';
+            $localFileName = $this->filename . '_' . $this->token . '.pdf';
         } else {
-            $localFileName = $this->filename.'.pdf';
+            $localFileName = $this->filename . '.pdf';
         }
 
         return $localFileName;
@@ -160,7 +178,7 @@ class PdfGenerator
      */
     public function getLocalRootPath()
     {
-        return $this->directory.'/'.$this->getLocalFileName();
+        return $this->directory . '/' . $this->getLocalFileName();
     }
 
     /**
@@ -169,5 +187,36 @@ class PdfGenerator
     public function getDownloadFileName()
     {
         return $this->filename . '.pdf';
+    }
+
+    /**
+     * Prepare the response that will contain the PDF to download and will handle deletion
+     *
+     * @param string $filename
+     * @param string|null $token
+     * @return ResponseBase
+     */
+    public static function prepareDownloadResponse(string $filename, ?string $token = null): ResponseBase
+    {
+        $tokenize = Settings::get('pdf_tokenize', true);
+        $tokenize = ($tokenize === "") ? true : $tokenize;
+
+        $directory = Settings::get('pdf_dir', temp_path());
+        $directory = ($directory === "") ? temp_path() : $directory;
+
+        if ($token && $tokenize) {
+            $localFileName = $directory . '/' . $filename . '_' . $token . '.pdf';
+        } else {
+            $localFileName = $directory . '/' . $filename . '.pdf';
+        }
+
+        $rmAfterDownload = Settings::get('pdf_rm_after_download', true);
+        $rmAfterDownload = ($rmAfterDownload === "") ? true : $rmAfterDownload;
+
+        if (!file_exists($localFileName)) {
+            return Redirect::to('/404');
+        }
+
+        return Response::download($localFileName, $filename . '.pdf')->deleteFileAfterSend($rmAfterDownload);
     }
 }

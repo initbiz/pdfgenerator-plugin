@@ -6,6 +6,10 @@
     'settings' => [
         'settings_label' => 'PDF generator',
         'settings_description' => 'Change you PDF generation settings',
+        'download_tab' => 'Downloading',
+        'generator_tab' => 'Generator options',
+        'pdf_generator_options' => 'Options sent to generator',
+        'pdf_generator_options_comment' => 'See Snappy PDF / wkhtmltopdf docs to set proper attributes',
         'pdf_tokenize_label' => 'Tokenize local filename',
         'pdf_tokenize_comment' => 'Adds pseudorandom 15 chars token to local filename. It does not affect downloaded filename',
         'pdf_dir_label' => 'Path to store PDFs',
