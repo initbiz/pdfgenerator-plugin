@@ -15,4 +15,6 @@
 1.0.8:
     - 'Fix for Turbo router'
 1.1.0:
-    - 'downloadPdfUsingAjax to get PDFs using data-request-download without redirect and generator options in settings'
+    - 'downloadPdfDirectly to get PDFs using data-request-download without redirect and generator options in settings'
+1.2.0:
+    - 'Allow generator options without value'
