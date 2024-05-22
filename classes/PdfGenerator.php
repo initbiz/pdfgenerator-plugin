@@ -151,7 +151,7 @@ class PdfGenerator
      * Download the file directly using AJAX
      * @return Redirect Redirect download to file
      */
-    public function downloadPdfUsingAjax()
+    public function downloadPdfDirectly()
     {
         Event::fire('initbiz.pdfgenerator.beforeDownloadPdf', [$this]);
         Event::fire('initbiz.pdfgenerator.beforeDownloadPdfAjax', [$this]);
