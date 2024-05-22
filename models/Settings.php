@@ -27,7 +27,11 @@ class Settings extends Model
         $parsed = [];
 
         foreach ($options as $additionalDataEntry) {
-            $parsed[$additionalDataEntry['key']] = $additionalDataEntry['value'];
+            // If the value is left empty, we're setting it to true
+            // @see \Knp\Snappy\AbstractGenerator@buildCommand for the implementation
+            $value = ($additionalDataEntry['value'] === '') ? true : $additionalDataEntry['value'];
+
+            $parsed[$additionalDataEntry['key']] = $value;
         }
 
         return $parsed;
