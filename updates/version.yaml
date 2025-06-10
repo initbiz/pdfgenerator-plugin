@@ -18,3 +18,5 @@
     - 'downloadPdfDirectly to get PDFs using data-request-download without redirect and generator options in settings'
 1.2.0:
     - 'Allow generator options without value'
+1.3.0:
+    - 'Add support for google chrome rendering engine'

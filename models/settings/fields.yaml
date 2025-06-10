@@ -13,6 +13,7 @@ tabs:
                     value:
                         type: text
                         span: auto
+            dependsOn: [pdf_engine]
 
         pdf_tokenize:
             label: initbiz.pdfgenerator::lang.settings.pdf_tokenize_label
@@ -20,7 +21,7 @@ tabs:
             commentAbove: initbiz.pdfgenerator::lang.settings.pdf_tokenize_comment
             type: switch
             default: true
-            
+
         pdf_dir:
             label: initbiz.pdfgenerator::lang.settings.pdf_dir_label
             tab: initbiz.pdfgenerator::lang.settings.download_tab
@@ -56,3 +57,14 @@ tabs:
             label: initbiz.pdfgenerator::lang.settings.pdf_binary_label
             tab: initbiz.pdfgenerator::lang.settings.download_tab
             commentAbove: initbiz.pdfgenerator::lang.settings.pdf_binary_comment
+            dependsOn: [pdf_engine]
+
+        pdf_engine:
+            label: initbiz.pdfgenerator::lang.settings.pdf_engine_label
+            tab: initbiz.pdfgenerator::lang.settings.generator_tab
+            commentAbove: initbiz.pdfgenerator::lang.settings.pdf_engine_comment
+            type: dropdown
+            default: snappy
+            options:
+                snappy: SnappyPdf
+                chrome: Google Chrome (EXPERIMENTAL)

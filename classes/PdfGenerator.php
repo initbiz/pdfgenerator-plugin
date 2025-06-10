@@ -21,6 +21,12 @@ class PdfGenerator
     public $snappyPdf;
 
     /**
+     * Google Chrome PDF class
+     * @var ChromePdfGenerator
+     */
+    public $googleChrome;
+
+    /**
      * Twig layout of PDF path
      * @var string
      */
@@ -63,21 +69,33 @@ class PdfGenerator
      */
     public function __construct($filename = 'generated', $layout = null)
     {
-        $this->snappyPdf = new Pdf();
+        // let snappy be default
+        $engine = Settings::get("pdf_engine", "snappy");
 
-        //By default the most resonable one is set
-        $binaryPath = Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
-        $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
+        if ($engine=="snappy"){
+            $this->snappyPdf = new Pdf();
 
-        $pathAlias = substr($binaryPath, 0, 1);
+            //By default the most resonable one is set
+            $binaryPath = Settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
+            $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
 
-        if ($pathAlias === '$') {
-            $binaryPath = plugins_path(substr($binaryPath, 1));
-        } elseif ($pathAlias === '~') {
-            $binaryPath = base_path(substr($binaryPath, 1));
+            $pathAlias = substr($binaryPath, 0, 1);
+
+            if ($pathAlias === '$') {
+                $binaryPath = plugins_path(substr($binaryPath, 1));
+            } elseif ($pathAlias === '~') {
+                $binaryPath = base_path(substr($binaryPath, 1));
+            }
+
+            $this->snappyPdf->setBinary($binaryPath);
         }
 
-        $this->snappyPdf->setBinary($binaryPath);
+        if($engine=="chrome"){
+            // reuse the binary settings entry, google-chrome-stable is the default binary on $PATH on debian.
+            $binary = Settings::get('pdf_binary', "google-chrome-stable");
+            $this->googleChrome = new ChromePdfGenerator(executable: $binary);
+        }
+
 
         $this->filename = $filename;
 
@@ -127,7 +145,13 @@ class PdfGenerator
     {
         $html = Twig::parse(File::get($layout), $data);
         $settings = Settings::instance();
-        $this->snappyPdf->generateFromHtml($html, $localFileName, $settings->getOptionsKeyValue());
+
+        // I am so sorry for this method of handling things :C
+        if($this->snappyPdf)
+            $this->snappyPdf->generateFromHtml($html, $localFileName, $settings->getOptionsKeyValue());
+
+        if($this->googleChrome)
+            $this->googleChrome->generate($html, $localFileName, $settings->getOptionsKeyValue());
 
         Event::fire('initbiz.pdfgenerator.afterGeneratePdf', [$this]);
     }
