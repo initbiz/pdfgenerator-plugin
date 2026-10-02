@@ -18,3 +18,5 @@
     - 'downloadPdfDirectly to get PDFs using data-request-download without redirect and generator options in settings'
 1.2.0:
     - 'Allow generator options without value'
+1.2.1:
+    - 'Update documentation'
