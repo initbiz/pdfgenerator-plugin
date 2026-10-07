@@ -1,6 +1,6 @@
 # PDF Generator - Generate PDF files and easily send them using the OctoberCMS AJAX framework
 
-![PDF Generator banner](assets/img/pdf-generator-banner.png)
+![PDF Generator banner](docs/pdf-generator-banner.png)
 
 ## Introduction
 

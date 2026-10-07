@@ -20,3 +20,5 @@
     - "Allow generator options without value"
 1.2.1:
     - "Update documentation"
+1.2.2:
+    - "Add missing banner in Readme.md"
