@@ -1,22 +1,22 @@
 1.0.1:
-    - 'First version of pdfgenerator'
+    - "First version of pdfgenerator"
 1.0.2:
-    - 'Updated PdfGenerator class'
+    - "Updated PdfGenerator class"
 1.0.3:
-    - 'Changed to paid plugin. The plugin was free until 1.0.2'
+    - "Changed to paid plugin. The plugin was free until 1.0.2"
 1.0.4:
-    - 'Added PdfLayout class'
+    - "Added PdfLayout class"
 1.0.5:
-    - '!!! Moved config to backend settings from .env and configs'
+    - "!!! Moved config to backend settings from .env and configs"
 1.0.6:
-    - 'Fixed filename handling'
+    - "Fixed filename handling"
 1.0.7:
-    - 'Fix routing'
+    - "Fix routing"
 1.0.8:
-    - 'Fix for Turbo router'
+    - "Fix for Turbo router"
 1.1.0:
-    - 'downloadPdfDirectly to get PDFs using data-request-download without redirect and generator options in settings'
+    - "downloadPdfDirectly to get PDFs using data-request-download without redirect and generator options in settings"
 1.2.0:
-    - 'Allow generator options without value'
+    - "Allow generator options without value"
 1.2.1:
-    - 'Update documentation'
+    - "Update documentation"
