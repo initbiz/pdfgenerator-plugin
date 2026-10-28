@@ -1,4 +1,8 @@
-<?php namespace Initbiz\Pdfgenerator\Classes;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator\Classes;
 
 abstract class PdfLayout
 {
@@ -26,9 +30,9 @@ abstract class PdfLayout
     {
         $this->viewPath = $this->guessViewPathFrom($this);
 
-        $this->assetsPath = $this->viewPath.'/assets';
+        $this->assetsPath = $this->viewPath . '/assets';
 
-        $this->path = $this->viewPath.'/default.htm';
+        $this->path = $this->viewPath . '/default.htm';
 
         $this->prepareData($data);
     }

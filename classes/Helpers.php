@@ -1,7 +1,10 @@
-<?php namespace Initbiz\Pdfgenerator\Classes;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator\Classes;
 
 use File;
-use Event;
 use Carbon\Carbon;
 use Initbiz\Pdfgenerator\Models\Settings;
 

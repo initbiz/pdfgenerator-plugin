@@ -1,8 +1,10 @@
-<?php namespace Initbiz\Pdfgenerator;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator;
 
 use Route;
-use Redirect;
-use Initbiz\Pdfgenerator\Models\Settings;
 use Initbiz\Pdfgenerator\Classes\PdfGenerator;
 
 /**

@@ -1,4 +1,8 @@
-<?php namespace Initbiz\Pdfgenerator\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator\Models;
 
 use Model;
 
