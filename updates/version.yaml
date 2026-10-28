@@ -22,3 +22,5 @@
     - "Update documentation"
 1.2.2:
     - "Add missing banner in Readme.md"
+1.2.3:
+    - "Add GitLab CI pipeline with Danger and lint code to PSR-12"
