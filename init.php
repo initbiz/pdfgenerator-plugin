@@ -1,4 +1,8 @@
-<?php namespace Initbiz\Pdfgenerator;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator;
 
 use Event;
 use Initbiz\Pdfgenerator\Classes\Helpers;

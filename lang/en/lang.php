@@ -1,4 +1,7 @@
-<?php return [
+<?php
+
+declare(strict_types=1);
+return [
     'plugin' => [
         'name' => 'Pdfgenerator',
         'description' => 'Generate PDFs in your October CMS project',

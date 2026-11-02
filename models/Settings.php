@@ -1,7 +1,15 @@
-<?php namespace Initbiz\Pdfgenerator\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator\Models;
 
 use Model;
 
+/**
+ * @mixin \System\Behaviors\SettingsModel
+ * @property mixed $pdf_generator_options
+ */
 class Settings extends Model
 {
     public $implement = [

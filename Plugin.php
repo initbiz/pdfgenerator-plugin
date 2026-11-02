@@ -1,6 +1,9 @@
-<?php namespace Initbiz\Pdfgenerator;
+<?php
 
-use Backend;
+declare(strict_types=1);
+
+namespace Initbiz\Pdfgenerator;
+
 use System\Classes\PluginBase;
 
 /**
