@@ -66,10 +66,10 @@ class PdfGenerator
     public function __construct($filename = 'generated', $layout = null)
     {
         $this->snappyPdf = new Pdf();
-        $settings = Settings::instance();
+        $settings = (new Settings())->instance();
 
         //By default the most resonable one is set
-        $binaryPath = $settings::get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
+        $binaryPath = $settings->get('pdf_binary', plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64'));
         $binaryPath = ($binaryPath === "") ? plugins_path('initbiz/pdfgenerator/vendor/bin/wkhtmltopdf-amd64') : $binaryPath;
 
         $pathAlias = substr($binaryPath, 0, 1);
@@ -96,11 +96,11 @@ class PdfGenerator
         }
 
         //By default get from config. Before rendering you can override the variable.
-        $this->directory = $settings::get('pdf_dir', temp_path());
+        $this->directory = $settings->get('pdf_dir', temp_path());
         $this->directory = ($this->directory === "") ? temp_path() : $this->directory;
 
         //By default files are tokenized on local filesystem
-        $this->tokenize = $settings::get('pdf_tokenize', true);
+        $this->tokenize = $settings->get('pdf_tokenize', true);
         $this->tokenize = ($this->tokenize === "") ? true : $this->tokenize;
 
         //By default it is just pseudorandom 15 chars long string
@@ -129,7 +129,7 @@ class PdfGenerator
     public function generateFromTwig($layout, $localFileName, array $data = [])
     {
         $html = Twig::parse(File::get($layout), $data);
-        $settings = Settings::instance();
+        $settings = (new Settings())->instance();
         $this->snappyPdf->generateFromHtml($html, $localFileName, $settings->getOptionsKeyValue());
 
         Event::fire('initbiz.pdfgenerator.afterGeneratePdf', [$this]);
@@ -201,11 +201,11 @@ class PdfGenerator
      */
     public static function prepareDownloadResponse(string $filename, ?string $token = null): ResponseBase
     {
-        $settings = Settings::instance();
-        $tokenize = $settings::get('pdf_tokenize', true);
+        $settings = (new Settings())->instance();
+        $tokenize = $settings->get('pdf_tokenize', true);
         $tokenize = ($tokenize === "") ? true : $tokenize;
 
-        $directory = $settings::get('pdf_dir', temp_path());
+        $directory = $settings->get('pdf_dir', temp_path());
         $directory = ($directory === "") ? temp_path() : $directory;
 
         if ($token && $tokenize) {
@@ -214,7 +214,7 @@ class PdfGenerator
             $localFileName = $directory . '/' . $filename . '.pdf';
         }
 
-        $rmAfterDownload = $settings::get('pdf_rm_after_download', true);
+        $rmAfterDownload = $settings->get('pdf_rm_after_download', true);
         $rmAfterDownload = ($rmAfterDownload === "") ? true : $rmAfterDownload;
 
         if (!file_exists($localFileName)) {
