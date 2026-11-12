@@ -101,7 +101,7 @@ class PdfGenerator
 
         //By default files are tokenized on local filesystem
         $this->tokenize = $settings->get('pdf_tokenize', true);
-        $this->tokenize = ($this->tokenize === "") ? true : $this->tokenize;
+        $this->tokenize = ($this->tokenize === "") ? true : (bool) $this->tokenize;
 
         //By default it is just pseudorandom 15 chars long string
         $this->token = str_random(15);
@@ -203,7 +203,7 @@ class PdfGenerator
     {
         $settings = (new Settings())->instance();
         $tokenize = $settings->get('pdf_tokenize', true);
-        $tokenize = ($tokenize === "") ? true : $tokenize;
+        $tokenize = ($tokenize === "") ? true : (bool) $tokenize;
 
         $directory = $settings->get('pdf_dir', temp_path());
         $directory = ($directory === "") ? temp_path() : $directory;
@@ -215,7 +215,7 @@ class PdfGenerator
         }
 
         $rmAfterDownload = $settings->get('pdf_rm_after_download', true);
-        $rmAfterDownload = ($rmAfterDownload === "") ? true : $rmAfterDownload;
+        $rmAfterDownload = ($rmAfterDownload === "") ? true : (bool) $rmAfterDownload;
 
         if (!file_exists($localFileName)) {
             return Redirect::to('/404');

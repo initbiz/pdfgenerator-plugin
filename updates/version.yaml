@@ -26,3 +26,5 @@
     - "Update gitlab-ci"
     - "Lint code to PSR-12"
     - "Fix static analysis errors"
+1.2.4:
+    - "Fix TypeError when downloading a PDF caused by settings stored as strings"
