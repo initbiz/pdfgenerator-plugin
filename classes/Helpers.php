@@ -18,14 +18,14 @@ class Helpers
     {
         $settings = (new Settings())->instance();
         $rmOldFiles = $settings->get('pdf_rm_old', false);
-        $rmOldFiles = ($rmOldFiles === "") ? false : $rmOldFiles;
+        $rmOldFiles = ($rmOldFiles === "") ? false : (bool) $rmOldFiles;
 
         if ($rmOldFiles) {
             $pdfDir = $settings->get('pdf_dir', temp_path());
             $pdfDir = ($pdfDir === "") ? temp_path() : $pdfDir;
 
             $olderThan = $settings->get('pdf_rm_older_than', 172800);
-            $olderThan = ($olderThan === "") ? 172800 : $olderThan;
+            $olderThan = ($olderThan === "") ? 172800 : (int) $olderThan;
 
             foreach (File::files($pdfDir) as $file) {
                 $mTime = File::lastModified($file->getRealPath());
